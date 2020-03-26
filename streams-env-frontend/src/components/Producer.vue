@@ -21,7 +21,7 @@ export default {
     },
     computed: {
         produceUrl: function() {
-            return `${this.url}/producers/${this.id}`
+            return `${this.url}/producers`
         }
     },
     methods: {
