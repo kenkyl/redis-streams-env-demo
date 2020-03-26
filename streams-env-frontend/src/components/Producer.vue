@@ -23,7 +23,6 @@ export default {
         produceUrl: function() {
             return `${this.url}/producers`
             // return `${this.url}/producers/${this.id}`
-
         }
     },
     methods: {
