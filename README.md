@@ -5,3 +5,4 @@ A cool demo to graphically demonstrate the basic capabilities of the Redis Strea
 
 ## Instructions
 Have fun! 
+Note - need to install `eventlet` and `flask-socketio` in venv for the server.

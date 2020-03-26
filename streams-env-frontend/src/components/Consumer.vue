@@ -7,6 +7,7 @@
 
 <script>
 import axios from 'axios';
+import VueSocketIO from 'vue-socket.io'
 
 export default {
     name: "consumer",
@@ -26,13 +27,20 @@ export default {
     },
     methods: {
         updateConsumer: function() {
+            console.log('updating consumer')
+            this.$socket.emit('message', {'message': 'hi'})
             // GET request to fetch latest consumer message
-            axios.get(this.produceUrl)
-                .then(res => {
-                    console.log(`consumer result: ${res}`)
-                    this.latestMessage = JSON.stringify(res)
-                })
-                .catch(err => console.error(err));
+            // axios.get(this.produceUrl)
+            //     .then(res => {
+            //         console.log(`consumer result: ${res}`)
+            //         this.latestMessage = JSON.stringify(res)
+            //     })
+            //     .catch(err => console.error(err));
+        }
+    },
+    sockets: {
+        connect: function() {
+            console.log("websocket connected!")
         }
     },
     created: function() {
