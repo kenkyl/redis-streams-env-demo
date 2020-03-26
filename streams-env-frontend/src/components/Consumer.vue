@@ -49,7 +49,7 @@ export default {
 
         setInterval(function () {
             this.updateConsumer();
-        }.bind(this), 1000)
+        }.bind(this), 5000)
     }
 }
 </script>
