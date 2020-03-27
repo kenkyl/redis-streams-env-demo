@@ -40,11 +40,11 @@ export default {
     },
     created: function() {
         console.log("producing!")
-        this.updateProducer();
+        // this.updateProducer();
 
-        setInterval(function () {
-            this.updateProducer();
-        }.bind(this), 5000)
+        // setInterval(function () {
+        //     this.updateProducer();
+        // }.bind(this), 5000)
     }
 }
 </script>

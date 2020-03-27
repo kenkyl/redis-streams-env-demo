@@ -6,6 +6,7 @@ from flask import Flask
 from flask import request
 from flask_socketio import SocketIO
 from flask_socketio import send, emit
+from flask import copy_current_request_context
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -34,11 +35,6 @@ def theads_test():
     x.start()
     return 'started', 200
 
-def thread_function(num):
-    print(f'thread #{num} checking in...')
-    time.sleep(5)
-    thread_function(num)
-
 @socketio.on('message', namespace='/test')
 def handle_event(json):
     print(f'received json: {json}')
@@ -49,6 +45,42 @@ def handle_event(json):
 def test_connect():
     print('socket connected!')
     emit('my-response', {'data': 'Connected'})
+
+# @socketio.on('message', namespace='/consumers')
+# def handle_event(json):
+#     print(f'received json: {json}')
+#     data = { 'message': 'responding now!'}
+#     emit('event-response', data)
+
+@socketio.on('createConsumer', namespace='/consumers')
+def handle_event(json):
+    @copy_current_request_context
+    def consumer_thread_function(event_name):
+        random.seed(time.localtime)
+        num = random.randint(0, 100)
+        message = f'{event_name} checking in with #{num}'
+        print(message)
+        emit(event_name, message)
+        time.sleep(5)
+        consumer_thread_function(event_name)
+
+    @copy_current_request_context
+    def consumer_init_thread(event_name):
+        x = threading.Thread(target=consumer_thread_function, args=(event_name,))
+        x.start()
+        return 'started', 200
+
+    print(f'received create consumer message: {json}')
+    event_name = json.get('message')
+    data = { 'message' : event_name }
+    consumer_init_thread(event_name)
+    emit('createConsumer', data)
+
+@socketio.on('connect', namespace='/consumers')
+def test_connect():
+    print('consumers socket connected!')
+    # emit('my-response', {'data': 'Connected'})
+
 
 if __name__ == '__main__':
     sockeio.run(app)
