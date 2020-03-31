@@ -13,9 +13,14 @@ app = Flask(__name__)
 CORS(app)
 socketio = SocketIO(app, cors_allowed_origins="*")
 
-r = redis.Redis(host = 'localhost', port = 6379, password = '')
+r = redis.StrictRedis('localhost', 6379, charset="utf-8", decode_responses=True)
 random.seed(1)
 stream_name = 'stream'
+
+# TODO - update the $ to > for XREADGROUP
+streams_list = {
+    stream_name: '$'
+}
 
 @app.route('/producers', methods = ['POST'])
 def producers_handler():
@@ -56,13 +61,23 @@ def test_connect():
 def handle_event(json):
     @copy_current_request_context
     def consumer_thread_function(event_name):
-        # random.seed(time.localtime)
-        num = random.randint(0, 100)
-        message = f'{event_name} checking in with #{num}'
-        print(message)
-        emit(event_name, message)
-        time.sleep(5)
+        # streams setup
+        consume = r.xread(streams_list, block=0)
+        # parse results
+        listened = consume[len(consume)-1]
+        samples = listened[len(listened)-1]
+        id_latest, val_latest = samples[len(samples)-1]
+        print(f'consumer # {event_name} RECEIVED: {id_latest} => {val_latest}')
+        emit(event_name, val_latest)
         consumer_thread_function(event_name)
+
+        # random.seed(time.localtime)
+        # num = random.randint(0, 100)
+        # message = f'{event_name} checking in with #{num}'
+        # print(message)
+        # emit(event_name, message)
+        # time.sleep(5)
+        # consumer_thread_function(event_name)
 
     @copy_current_request_context
     def consumer_init_thread(event_name):
