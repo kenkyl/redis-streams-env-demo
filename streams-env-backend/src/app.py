@@ -56,7 +56,7 @@ def test_connect():
 def handle_event(json):
     @copy_current_request_context
     def consumer_thread_function(event_name):
-        random.seed(time.localtime)
+        # random.seed(time.localtime)
         num = random.randint(0, 100)
         message = f'{event_name} checking in with #{num}'
         print(message)
@@ -72,9 +72,10 @@ def handle_event(json):
 
     print(f'received create consumer message: {json}')
     event_name = json.get('message')
+    consumer_id = event_name[-1]
     data = { 'message' : event_name }
     consumer_init_thread(event_name)
-    emit('createConsumer', data)
+    emit(f'createConsumer{consumer_id}', data)
 
 @socketio.on('connect', namespace='/consumers')
 def test_connect():
