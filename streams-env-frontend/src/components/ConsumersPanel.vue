@@ -1,7 +1,10 @@
 <template>
     <div class="consumers-panel">
         <h2>This is the consumers panel!</h2>
-        <Consumer id="1" url="http://localhost:5000" />
+        <Consumer id="1" url="http://localhost:5000" group="1"/>
+        <Consumer id="2" url="http://localhost:5000" group="1"/>
+        <Consumer id="3" url="http://localhost:5000" group="2"/>
+
     </div>
 </template>
 

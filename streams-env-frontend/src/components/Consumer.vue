@@ -13,7 +13,8 @@ export default {
     name: "consumer",
     props: [
         "id",
-        "url"
+        "url",
+        "group"
     ],
     data() {
         return {
@@ -35,7 +36,10 @@ export default {
         connect: function() {
             console.log(`websocket connected for consumer ${this.id}`)
             // send the id of the consumer to create to the backend
-            var data = { 'message': `consumer${this.id}` }
+            var data = { 
+                'message': `consumer${this.id}`,
+                'group': this.group
+            }
             this.$socket.emit('createConsumer', data)
             var createEventName = `createConsumer${this.id}`
             // subscribe to the creation event for this consumer
