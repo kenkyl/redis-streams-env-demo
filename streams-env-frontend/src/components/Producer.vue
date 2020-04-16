@@ -2,11 +2,26 @@
     <div class="producer">
         <h3>I am producer #{{id}}</h3>
         <p>My latest message is: {{latestMessage}}</p>
+        <Log ref="log" title="Producer" v-bind:maxLength="3" v-bind:logChannel="logChannel"/>
+        <!-- <v-list>
+            <v-subheader>LOG</v-subheader>
+            <v-list-item-group v-model="item" color="primary">
+                <v-list-item
+                v-for="(item, i) in items"
+                :key="i"
+                >
+                <v-list-item-content>
+                    <v-list-item-title v-text="item.text"></v-list-item-title>
+                </v-list-item-content>
+                </v-list-item>
+            </v-list-item-group>
+        </v-list> -->
     </div>
 </template>
 
 <script>
 import axios from 'axios';
+import Log from './Log';
 
 export default {
     name: "Producer",
@@ -14,15 +29,30 @@ export default {
         "id",
         "url"
     ],
+    components: {
+        Log
+    },
     data() {
         return {
-            latestMessage: ''
+            latestMessage: '',
+            item: 1,
+            items: [
+                {
+                    text: 'item1' 
+                },
+                {
+                    text: 'item2'
+                }
+            ]
         }
     },
     computed: {
         produceUrl: function() {
             return `${this.url}/producers`
             // return `${this.url}/producers/${this.id}`
+        },
+        logChannel: function() {
+            return `producer-log-${this.id}`
         }
     },
     methods: {
@@ -34,6 +64,8 @@ export default {
                 .then( res => {
                     console.log(`result: ${JSON.stringify(res)}`)
                     this.latestMessage = JSON.stringify(payload)
+                    this.$emit(this.logChannel, JSON.stringify(payload));
+                    this.$refs.log.addToList(payload);
                 })
                 .catch(err => console.error(err));
         }
