@@ -2,7 +2,7 @@
     <div class="producer">
         <h3>I am producer #{{id}}</h3>
         <p>My latest message is: {{latestMessage}}</p>
-        <Log ref="log" title="Producer" v-bind:maxLength="3" v-bind:logChannel="logChannel"/>
+        <Log title="Producer" v-bind:maxLength="3" v-bind:items="items"/>
         <!-- <v-list>
             <v-subheader>LOG</v-subheader>
             <v-list-item-group v-model="item" color="primary">
@@ -35,15 +35,9 @@ export default {
     data() {
         return {
             latestMessage: '',
-            item: 1,
             items: [
-                {
-                    text: 'item1' 
-                },
-                {
-                    text: 'item2'
-                }
-            ]
+            ],
+            logLength: 5
         }
     },
     computed: {
@@ -63,9 +57,12 @@ export default {
             axios.post(this.produceUrl, payload)
                 .then( res => {
                     console.log(`result: ${JSON.stringify(res)}`)
+                    // update list!
                     this.latestMessage = JSON.stringify(payload)
-                    this.$emit(this.logChannel, JSON.stringify(payload));
-                    this.$refs.log.addToList(payload);
+                    if (this.items.length == this.logLength) {
+                        this.items.shift();
+                    }
+                    this.items.push(this.latestMessage);
                 })
                 .catch(err => console.error(err));
         }

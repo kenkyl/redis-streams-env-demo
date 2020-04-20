@@ -8,7 +8,7 @@
             <v-subheader>{{title}} LOG</v-subheader>
             <v-list-item-group v-model="item" color="primary">
                 <v-list-item
-                v-for="(item, i) in items"
+                v-for="(item, i) in reversedItems"
                 :key="i"
                 >
                 <v-list-item-content>
@@ -27,29 +27,31 @@ export default {
     props: [
         "title",
         "maxLength",
-        "logChannel"
+        "items"
     ],
     data() {
         return {
-            item: 1,
-            items: [
-                
-            ]
+            item: 1
         }
     },
     methods: {
-        addToList: function(newItem) {
-            console.log(`adding ${newItem} to the list`)
-            if (this.items.length == this.maxLength) {
-                this.items.shift();
-            }
-            this.items.push(newItem);
+        // addToList: function(newItem) {
+        //     console.log(`adding ${newItem} to the list`)
+        //     if (this.items.length == this.maxLength) {
+        //         this.items.shift();
+        //     }
+        //     this.items.push(newItem);
             
+        // }
+    },
+    computed: {
+        reversedItems() {
+            return this.items.slice().reverse()
         }
     },
     created: function() {
-       this.$on(this.logChannel, this.addToList)
-       console.log(`listenting on ${this.logChannel}`)
+       //this.$on(this.logChannel, this.addToList)
+       //console.log(`listenting on ${this.logChannel}`)
     }
 }
 </script>
