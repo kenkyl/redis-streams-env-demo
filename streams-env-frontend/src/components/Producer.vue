@@ -1,7 +1,7 @@
 <template>
     <div class="producer">
         <h3>I am producer #{{id}}</h3>
-        <p>My latest message is: {{latestMessage}}</p>
+        <!-- <p>My latest message is: {{latestMessage}}</p> -->
         <Log title="Producer" v-bind:maxLength="3" v-bind:items="items"/>
         <!-- <v-list>
             <v-subheader>LOG</v-subheader>
@@ -56,9 +56,10 @@ export default {
             // POST request to backend to publish data from producer
             axios.post(this.produceUrl, payload)
                 .then( res => {
-                    console.log(`result: ${JSON.stringify(res)}`)
+                    this.latestMessage = `Produced=> ${JSON.stringify(res.data)} => ${JSON.stringify(payload)}`
+                    //console.log(`result: ${JSON.stringify(res)}`)
                     // update list!
-                    this.latestMessage = JSON.stringify(payload)
+                    //this.latestMessage = JSON.stringify(payload)
                     if (this.items.length == this.logLength) {
                         this.items.shift();
                     }

@@ -2,12 +2,14 @@
     <div class="consumer">
         <h3>I am consumer #{{id}}</h3>
         <p>My latest message is: {{latestMessage}}</p>
+        <Log title="Consumer" v-bind:maxLength="3" v-bind:items="items"/>
     </div>
 </template>
 
 <script>
 // import axios from 'axios';
 // import VueSocketIO from 'vue-socket.io'
+import Log from './Log';
 
 export default {
     name: "consumer",
@@ -16,9 +18,14 @@ export default {
         "url",
         "group"
     ],
+    components: {
+        Log
+    },
     data() {
         return {
-            latestMessage: ''
+            latestMessage: '',
+            items: [],
+            logLength: 3
         }
     },
     computed: {
@@ -48,8 +55,12 @@ export default {
                 const eventName = data['message']
                 // subscribe to updates from this consumer
                 this.sockets.subscribe(eventName, function(consumerData) {
-                    console.log(`got data from consumer: ${consumerData}`)
-                    this.latestMessage = consumerData
+                    //console.log(`got data from consumer: ${consumerData}`);
+                    this.latestMessage = `Consumed=> ${JSON.stringify(consumerData)}`
+                    if (this.items.length == this.logLength) {
+                        this.items.shift();
+                    }
+                    this.items.push(this.latestMessage);
                 })
             });
         }
