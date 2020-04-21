@@ -65,7 +65,11 @@ export default {
                     }
                     this.items.push(this.latestMessage);
                     // 3. emit event to update 
-                    this.$emit(this.eventName, consumerData['temp-sensor']);
+                    const event = {
+                        consumer: `consumer${this.id}`,
+                        value: consumerData['temp-sensor']
+                    };
+                    this.$emit(this.eventName, event);
                 })
             });
         }

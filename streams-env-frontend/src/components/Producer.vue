@@ -3,6 +3,7 @@
         <h3>I am producer #{{id}}</h3>
 
         <!-- TODO add produce button --> 
+        <v-btn @click="updateProducer">Produce</v-btn>
 
         <!-- <p>My latest message is: {{latestMessage}}</p> -->
         <Log title="Producer" v-bind:maxLength="3" v-bind:items="items"/>
@@ -78,9 +79,9 @@ export default {
         console.log("producing!")
         this.updateProducer();
 
-        setInterval(function () {
-            this.updateProducer();
-        }.bind(this), 5000)
+        // setInterval(function () {
+        //     this.updateProducer();
+        // }.bind(this), 5000)
     }
 }
 </script>

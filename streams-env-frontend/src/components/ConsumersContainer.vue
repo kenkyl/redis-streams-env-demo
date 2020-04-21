@@ -17,8 +17,8 @@ export default {
         "url"
     ],
     methods: {
-        updateTemp(value) {
-            this.$emit('update-temp', value)
+        updateTemp(event) {
+            this.$emit('update-temp', event)
         }
     }
 

@@ -11,7 +11,7 @@
             >
                 <v-col class="shrink">
                     <!-- display -->
-                    <TemperatureDisplay v-bind:tempValue="tempValue" />
+                    <TemperatureDisplay v-bind:tempValue="tempValue" v-bind:tempConsumer="tempConsumer"/>
                 </v-col>
                 <v-divider class="mx-4" dark vertical></v-divider>
                 <v-col class="shrink">
@@ -34,7 +34,8 @@ import TemperatureDisplay from './TemperatureDisplay'
 export default {
     name: "DashboardContainer",
     props: [
-        "tempValue"
+        "tempValue",
+        "tempConsumer"
     ],
     components: {
         TemperatureDisplay

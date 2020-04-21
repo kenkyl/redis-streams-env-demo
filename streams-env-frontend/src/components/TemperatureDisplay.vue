@@ -10,6 +10,9 @@
     <v-card-text>
         Current Temperature:
         <span>{{tempValue}}</span>
+        <br/>
+        Updated By:
+        <span class="font-weight-light">{{tempConsumer}}</span>
     </v-card-text>
     </v-card>
 </template>
@@ -18,11 +21,12 @@
 export default {
     name: "TemperatureDisplay",
     props: [
-        "tempValue"
+        "tempValue",
+        "tempConsumer"
     ],
     data: function() {
         return {
-            title: "Temperature"
+            title: "Current Temperature"
         }
     }
 }

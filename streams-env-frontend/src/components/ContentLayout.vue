@@ -7,7 +7,7 @@
           align="center"
           justify="center"
         >
-          <DashboardContainer v-bind:tempValue="tempValue"/>
+          <DashboardContainer v-bind:tempValue="tempValue" v-bind:tempConsumer="tempConsumer"/>
         </v-row>
         <v-divider class="mx-4" dark></v-divider>
         <v-row
@@ -44,12 +44,14 @@ export default {
     }, 
     data: function() {
         return {
-            tempValue: 0
+            tempValue: 0,
+            tempConsumer: ''
         }
     },
     methods: {
-      updateTemp(value) {
-        this.tempValue = value;
+      updateTemp(event) {
+        this.tempValue = event.value;
+        this.tempConsumer = event.consumer;
       }
     }
 }
