@@ -19,6 +19,8 @@
                 </v-col>
                 <v-divider class="mx-4" dark vertical></v-divider>
                 <v-col class="shrink">
+                    <!-- CHART !!!! -->
+                    <!-- TODO (last) create a chart component that plots the temp -->
                     <!-- history -->
                 </v-col>
             </v-row>

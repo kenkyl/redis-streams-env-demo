@@ -1,6 +1,9 @@
 <template>
     <div class="producer">
         <h3>I am producer #{{id}}</h3>
+
+        <!-- TODO add produce button --> 
+
         <!-- <p>My latest message is: {{latestMessage}}</p> -->
         <Log title="Producer" v-bind:maxLength="3" v-bind:items="items"/>
         <!-- <v-list>
@@ -50,6 +53,7 @@ export default {
         }
     },
     methods: {
+        // TODO add button
         updateProducer: function() {
             var temp = Math.random() * 100;
             var payload = { "temp-sensor": temp }
