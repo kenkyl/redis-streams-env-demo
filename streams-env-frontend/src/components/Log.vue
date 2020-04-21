@@ -5,7 +5,7 @@
         tile
     >
         <v-list>
-            <v-subheader>{{title}} LOG</v-subheader>
+            <v-subheader>{{title}} Log</v-subheader>
             <v-list-item-group v-model="item" color="primary">
                 <v-list-item
                 v-for="(item, i) in reversedItems"

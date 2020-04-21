@@ -7,7 +7,7 @@
           align="center"
           justify="center"
         >
-          <DashboardContainer />
+          <DashboardContainer v-bind:tempValue="tempValue"/>
         </v-row>
         <v-divider class="mx-4" dark></v-divider>
         <v-row
@@ -21,7 +21,7 @@
           <v-divider class="mx-4" dark vertical></v-divider>
           <v-col class="shrink">
               <!-- <ConsumersPanel title="Consumers!"/> -->
-              <ConsumersContainer />
+              <ConsumersContainer v-on:update-temp="updateTemp"/>
           </v-col>
         </v-row>
       </v-container>
@@ -44,8 +44,13 @@ export default {
     }, 
     data: function() {
         return {
-
+            tempValue: 0
         }
+    },
+    methods: {
+      updateTemp(value) {
+        this.tempValue = value;
+      }
     }
 }
 </script>

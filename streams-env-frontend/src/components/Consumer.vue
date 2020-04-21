@@ -25,7 +25,8 @@ export default {
         return {
             latestMessage: '',
             items: [],
-            logLength: 3
+            logLength: 3,
+            eventName: 'update-temp'
         }
     },
     computed: {
@@ -56,11 +57,15 @@ export default {
                 // subscribe to updates from this consumer
                 this.sockets.subscribe(eventName, function(consumerData) {
                     //console.log(`got data from consumer: ${consumerData}`);
+                    // 1. set latest message
                     this.latestMessage = `Consumed=> ${JSON.stringify(consumerData)}`
+                    // 2. shift if needed
                     if (this.items.length == this.logLength) {
                         this.items.shift();
                     }
                     this.items.push(this.latestMessage);
+                    // 3. emit event to update 
+                    this.$emit(this.eventName, consumerData['temp-sensor']);
                 })
             });
         }

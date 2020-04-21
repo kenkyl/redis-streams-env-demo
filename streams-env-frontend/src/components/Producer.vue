@@ -56,7 +56,9 @@ export default {
             // POST request to backend to publish data from producer
             axios.post(this.produceUrl, payload)
                 .then( res => {
-                    this.latestMessage = `Produced=> ${JSON.stringify(res.data)} => ${JSON.stringify(payload)}`
+                    //this.latestMessage = `Produced=> ${JSON.stringify(res.data)} => ${JSON.stringify(payload)}`
+                    this.latestMessage = `Produced => ${JSON.stringify(payload)} => ${JSON.stringify(res.data)}`
+                    
                     //console.log(`result: ${JSON.stringify(res)}`)
                     // update list!
                     //this.latestMessage = JSON.stringify(payload)
